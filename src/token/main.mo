@@ -26,7 +26,7 @@ actor Token{
     public shared(msg) func payOut() : async Text {
         if(balances.get(msg.caller) == null){
             let amount = 1000;
-            Debug.print(debug_show (msg.caller));
+            // Debug.print(debug_show (msg.caller));
             balances.put(msg.caller, amount);
             return "Success";
         }
