@@ -1,6 +1,7 @@
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Debug "mo:base/Debug";
+import Nat "mo:base/Nat";
 
 actor Token{
     var owner : Principal = Principal.fromText("wwehs-k7j2d-ujphl-x442p-oyn4r-37tex-yun3b-vkowy-wft7n-ogyi6-xqe");
@@ -27,11 +28,28 @@ actor Token{
         if(balances.get(msg.caller) == null){
             let amount = 1000;
             // Debug.print(debug_show (msg.caller));
-            balances.put(msg.caller, amount);
-            return "Success";
+            let result = await transfer(msg.caller, amount);
+            return result;
         }
         else{
             return "Already Claimed"
+        }
+  
+    };
+
+    public shared(msg) func transfer(to: Principal, amount: Nat) : async Text {
+        let fromAmount : Nat = await balanceOf(msg.caller);
+        if(fromAmount > amount){
+            let newFromBalance : Nat = fromAmount - amount;
+            balances.put(msg.caller, newFromBalance);
+            
+            let toBalance : Nat = await balanceOf(to);
+            let newToBalance : Nat = toBalance + amount;
+            balances.put(to, newToBalance); 
+            return "success"
+        }
+        else{
+            return "Insufficient Balance"
         }
         
     };
