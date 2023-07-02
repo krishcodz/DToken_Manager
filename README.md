@@ -1,3 +1,7 @@
+# D - Token - Manager  
+
+This application is to create ,manage and transfer d-tokens between multiple users based on their canister-ID 
+
 # Check your Balance
 
 1. Find out your principal id:
